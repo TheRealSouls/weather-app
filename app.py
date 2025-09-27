@@ -7,6 +7,19 @@ load_dotenv()
 app = Flask(__name__)
 OPENWEATHER_KEY = os.getenv("OPENWEATHER_KEY")
 
+@app.route("/air")
+def air():
+    lat = request.args.get("lat")
+    lng = request.args.get("lng")
+
+    if not lat or not lng:
+        return jsonify({"error": "Missing lat/lng"}), 400
+
+    url = f"https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lng}&appid={OPENWEATHER_KEY}"
+
+    r = requests.get(url)
+    return jsonify(r.json())
+
 @app.route("/")
 def index():
     return render_template("openweather.html")
@@ -15,6 +28,9 @@ def index():
 def weather():
     lat = request.args.get("lat")
     lng = request.args.get("lng")
+
+    if not lat or not lng:
+        return jsonify({"error": "Missing lat/lng"}), 400
 
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lng}&appid={OPENWEATHER_KEY}&units=metric"
 
