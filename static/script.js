@@ -5,10 +5,12 @@ let lng = -0.1278;
 let locationText = document.getElementById("location");
 let date = document.getElementById("date");
 
+let temperature = document.getElementById("temperature");
+
 let windSpeed = document.getElementById("windSpeed");
 let humidity = document.getElementById("humidity");
 let visibility = document.getElementById("visibility");
-let airQuality = document.getElementById("airQuality");
+let atmosphericPressure = document.getElementById("atmosphericPressure");
 
 L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=qp7uy5rCF4Ij9uDMupR6', {
     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
@@ -33,6 +35,7 @@ async function getResponse(lat, lng) {
         const hours = now.getHours();
         const minutes = now.getMinutes();
         const seconds = now.getSeconds();
+        // TODO: hours
 
         console.log("Weather data:", data);
 
@@ -41,7 +44,12 @@ async function getResponse(lat, lng) {
         windSpeed.innerText = `${data.wind.speed} km/h`;
         humidity.innerText = `${data.main.humidity}%`;
         visibility.innerText = `${parseInt(data.visibility, 10) / 1000} km`
+        atmosphericPressure.innerText = `${data.main.pressure} hPa`
+
+        temperature.innerText = `${data.main.temp}`
     } catch (err) {
         console.error("Error fetching weather:", err);
     }
 }
+
+getResponse(51.5074, -0.1278);

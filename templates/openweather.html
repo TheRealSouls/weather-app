@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../media/favicon.ico" type="image/x-icon">
     <meta name="description" content="A weather app practice run for NASA SpaceApps challenge.">
 </head>
 <body>
@@ -43,9 +44,9 @@
         </div>
 
         <div class="main-weather">
-            <div class="weather-icon">☀️</div>
-            <h2 class="temperature">24°</h2>
-            <div class="condition">Sunny</div>
+            <div class="weather-icon" id="weatherIcon">☀️</div>
+            <h2 class="temperature" id="temperature">24°</h2>
+            <div class="condition" id="sunny">Sunny</div>
         </div>
 
         <div class="weather-details">
@@ -67,7 +68,7 @@
             <div class="detail-item">
                 <div class="detail-icon"><i class="fa-solid fa-tornado"></i></div>
                 <div class="detail-label">Atmospheric Pressure</div>
-                <div class="detail-value" id="atmosphericPressure">🔴 Poor</div>
+                <div class="detail-value" id="atmosphericPressure">1000 hPa</div>
             </div>
         </div>
 
