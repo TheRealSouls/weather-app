@@ -22,7 +22,7 @@ def air():
 
 @app.route("/")
 def index():
-    return render_template("openweather.html")
+    return render_template("index.html")
 
 @app.route("/weather")
 def weather():
