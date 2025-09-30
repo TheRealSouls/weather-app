@@ -14,6 +14,9 @@ let humidity = document.getElementById("humidity");
 let visibility = document.getElementById("visibility");
 let atmosphericPressure = document.getElementById("atmosphericPressure");
 
+const spinner = document.getElementById("loading");
+const data = document.getElementById("data");
+
 L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=qp7uy5rCF4Ij9uDMupR6', {
     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
 }).addTo(map);
@@ -27,7 +30,13 @@ map.on('click', function(e) {
     getResponse(lat, lng);
 })
 
+const refreshWeather = () => {
+    getResponse(lat, lng);
+}
+
 async function getResponse(lat, lng) {
+    spinner.classList.add('active');
+    data.style.display = 'none';
     try {
         const res = await fetch(`/weather?lat=${lat}&lng=${lng}`);
         const data = await res.json();
@@ -37,10 +46,11 @@ async function getResponse(lat, lng) {
         const year = now.getFullYear();
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
-        
-        date.innerText = `${year}/${month}/${day}`
 
-        console.log("Weather data:", data);
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        
+        date.innerText = `${year}/${month}/${day} ${hours}:${minutes}`
 
         if (!data.name || data.sys.country == undefined) {
             locationText.innerText = "Unknown location";
@@ -81,6 +91,35 @@ async function getResponse(lat, lng) {
     } catch (err) {
         console.error("Error fetching weather:", err);
     }
+    setTimeout(() => {
+        spinner.classList.remove('active');
+        data.style.display = 'block';
+    }, 1000);
+}
+
+const container = document.querySelector('.clouds');
+
+for (let i = 0; i < 5; i++) {
+    const cloud = document.createElement('div');
+    cloud.classList.add('cloud');
+
+    const width = Math.floor(Math.random() * 80) + 60;
+    const height = Math.floor(width / 2);
+    cloud.style.width = `${width}px`;
+    cloud.style.height = `${height}px`;
+
+    const top = Math.floor(Math.random() * 80) + 10;
+    cloud.style.top = `${top}%`;
+
+    const left = Math.floor(Math.random() * 100);
+    cloud.style.left = `${left}%`;
+
+    const duration = Math.floor(Math.random() * 20) + 20;
+    const delay = Math.floor(Math.random() * -20);
+    cloud.style.animation = `float ${duration}s infinite linear`;
+    cloud.style.animationDelay = `${delay}s`;
+
+    container.appendChild(cloud);
 }
 
 getResponse(51.5074, -0.1278);
